@@ -14,19 +14,25 @@ def readText(image):
 def getImageExtension(filePath: str):
     extension = ""
     indexDot = filePath.rfind('.')
-    extension = filePath[indexDot:]
+    extension = filePath[indexDot + 1:]
     return extension
 
 def saveRotatedImage(image: Image, filename: str):
     image.save(filename)
 
+def convertToJPG(imgPath: str):
+    ext = getImageExtension(imgPath)
+    indexExt = imgPath.find(ext)
+    if ext == "png":
+        img = Image.open(imgPath)
+        img = img.convert('RGB')
+        filename = imgPath[: indexExt - 1] + ".jpg"
+        img.save(filename)
+
+
 def getTextFromImage(imgPath: str):
     text = ""
     results = []
-    # ext = getImageExtension(imgPath)
-    # date = str(datetime.datetime.now().date())
-    # date = re.sub('-', '_', date)
-    # filename = date + "_img" + ext
     
     image = Image.open(imgPath)
     exif = image.getexif()
@@ -45,7 +51,7 @@ def getTextFromImage(imgPath: str):
     print(text)
 
 
-getTextFromImage('images/ticket_Leroy.jpg')
+# getTextFromImage('images/ticket_Leroy.jpg')
 
 # getTextFromImage('images/eci_factura_2.jpg')
 # getTextFromImage('images/ejemplo1.jpg')
@@ -53,3 +59,6 @@ getTextFromImage('images/ticket_Leroy.jpg')
 print("\n\n")
 # getTextFromImage('images/lm_factura_3.jpg')
 # getTextFromImage('images/zara_factura.jpg')
+# getTextFromImage('images/puig_example.png')
+
+convertToJPG('images/puig_example.png')
